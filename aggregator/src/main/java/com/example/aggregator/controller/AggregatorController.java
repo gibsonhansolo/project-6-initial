@@ -52,6 +52,52 @@ public class AggregatorController {
         return entry;
     }
 
+    @GetMapping("getWordsStartingWith/{chars}")
+    public List<Entry> getWordsStartingWith(@PathVariable String chars) {
+
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        List<Entry> entry = aggregatorService.getWordsStartingWith(chars);
+        stopWatch.stop();
+
+        long nanoSeconds = stopWatch.getLastTaskTimeNanos();
+        String message = new StringBuilder()
+                .append("Retrieved ")
+                .append(entry.size())
+                .append(" entries for words starting with [")
+                .append(chars)
+                .append("] in ")
+                .append(nanoSeconds / 1000000.0)
+                .append("ms")
+                .toString();
+        logger.info(message);
+
+        return entry;
+    }
+
+    @GetMapping("getWordsEndingWith/{chars}")
+    public List<Entry> getWordsEndingWith(@PathVariable String chars) {
+
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        List<Entry> entry = aggregatorService.getWordsEndingWith(chars);
+        stopWatch.stop();
+
+        long nanoSeconds = stopWatch.getLastTaskTimeNanos();
+        String message = new StringBuilder()
+                .append("Retrieved ")
+                .append(entry.size())
+                .append(" entries for words ending with [")
+                .append(chars)
+                .append("] in ")
+                .append(nanoSeconds / 1000000.0)
+                .append("ms")
+                .toString();
+        logger.info(message);
+
+        return entry;
+    }
+
     @GetMapping("getWordsThatContainSuccessiveLettersAndStartsWith/{chars}")
     public List<Entry> getWordsThatContainSuccessiveLettersAndStartsWith(@PathVariable String chars) {
 

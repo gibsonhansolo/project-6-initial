@@ -20,6 +20,14 @@ public class AggregatorService {
         return aggregatorRestClient.getDefinitionFor(word);
     }
 
+    public List <Entry> getWordsStartingWith(String chars) {
+        return aggregatorRestClient.getWordsStartingWith(chars);
+    }
+
+    public List<Entry> getWordsEndingWith(String chars) {
+        return aggregatorRestClient.getWordsEndingWith(chars);
+    }
+
     public List<Entry> getWordsThatContainSuccessiveLettersAndStartsWith(String chars) {
 
         List<Entry> wordsThatStartWith = aggregatorRestClient.getWordsStartingWith(chars);
