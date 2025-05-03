@@ -58,6 +58,16 @@ public class DictionaryControllerIntegrationTest {
     }
 
     @Test
+    public void testGetWordsEndingWith() throws Exception {
+        List<Entry> entries = Arrays.asList(new Entry("test", "definition"));
+        Mockito.when(dictionaryService.getWordsEndingWith(anyString())).thenReturn(entries);
+
+        mockMvc.perform(get("/getWordsEndingWith/st"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[{\"word\":\"test\",\"definition\":\"definition\"}]"));
+    }
+
+    @Test
     public void testGetWordsThatContain() throws Exception {
         List<Entry> entries = Arrays.asList(new Entry("test", "definition"));
         Mockito.when(dictionaryService.getWordsThatContain(anyString())).thenReturn(entries);
