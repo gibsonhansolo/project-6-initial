@@ -48,6 +48,30 @@ public class AggregatorControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{\"word\":\"hello\",\"definition\":\"definition1\"},{\"word\":\"world\",\"definition\":\"definition2\"}]"));
     }
+    @Test
+    public void testGetAllPalindromes() throws Exception {
+        List<Entry> entries = List.of(
+                new Entry("level", "definition1"),
+                new Entry("madam", "definition2"),
+                new Entry("civic", "definition3")
+        );
+
+
+        Mockito.when(aggregatorService.getAllPalindromes()).thenReturn(entries);
+
+
+        String expectedJson = """
+        [
+            {"word": "level", "definition": "definition1"},
+            {"word": "madam", "definition": "definition2"},
+            {"word": "civic", "definition": "definition3"}
+        ]
+    """;
+
+        mockMvc.perform(get("/getAllPalindromes"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJson, true)); // true = strict order & structure
+    }
 
     @Test
     public void testGetDefinitionFor() throws Exception {

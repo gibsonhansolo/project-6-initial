@@ -18,6 +18,16 @@ public class AggregatorRestClient {
         this.restTemplate = restTemplate;
     }
 
+    public List<Entry> getAllPalindromes() {
+
+        String uri = "http://localhost:9091/getAllPalindromes";
+        ResponseEntity<Entry[]> responseEntity = restTemplate.getForEntity(uri, Entry[].class);
+
+        Entry[] entryArray = responseEntity.getBody();
+        return Arrays.stream(entryArray)
+                .collect(Collectors.toList());
+    }
+
     public Entry getDefinitionFor(String word) {
 
         String uri = "http://localhost:9091/getWord/" + word;
