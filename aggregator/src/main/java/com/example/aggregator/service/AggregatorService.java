@@ -51,4 +51,10 @@ public class AggregatorService {
 
     }
 
+    public List<Entry> getWordsThatContainSpecificConsecutiveLetters(String chars) {
+
+        return aggregatorRestClient.getWordsThatContainSpecificConsecutiveLetters(chars);
+
+    }
+
 }

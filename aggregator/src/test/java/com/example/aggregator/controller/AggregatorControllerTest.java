@@ -99,6 +99,7 @@ public class AggregatorControllerTest {
                 .andExpect(content().json("[{\"word\":\"letter\",\"definition\":\"definition\"}]"));
     }
 
+    @Test
     public void testGetWordsThatContainSpecificConsecutiveLetters() throws Exception {
         List<Entry> entries = Arrays.asList(new Entry("letter", "definition"));
         Mockito.when(aggregatorService.getWordsThatContainSpecificConsecutiveLetters(anyString())).thenReturn(entries);

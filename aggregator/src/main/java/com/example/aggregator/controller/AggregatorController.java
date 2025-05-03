@@ -121,6 +121,27 @@ public class AggregatorController {
         return entry;
     }
 
+    @GetMapping("getWordsThatContainSpecificConsecutiveLetters/{chars}")
+    public List<Entry> getWordsThatContainSpecificConsecutiveLetters(@PathVariable String chars) {
+
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        List<Entry> entry = aggregatorService.getWordsThatContainSpecificConsecutiveLetters(chars);
+        stopWatch.stop();
+
+        long nanoSeconds = stopWatch.getLastTaskTimeNanos();
+        String message = new StringBuilder()
+                .append("Retrieved entries for words that contain specific consecutive letters [")
+                .append(chars)
+                .append("] in ")
+                .append(nanoSeconds / 1000000.0)
+                .append("ms")
+                .toString();
+        logger.info(message);
+
+        return entry;
+    }
+
     @GetMapping("getWordsThatContain/{chars}")
     public List<Entry> getWordsThatContain(@PathVariable String chars) {
 
