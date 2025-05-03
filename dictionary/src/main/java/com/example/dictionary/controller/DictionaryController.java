@@ -31,6 +31,11 @@ public class DictionaryController {
         this.dictionaryService = dictionaryService;
     }
 
+    @GetMapping("/")
+    public String index() {
+        logger.info("test");
+        return "Greetings from Spring Boot!";
+    }
     // Example method to get a word definition
     @GetMapping("/getWord/{word}")
     public Entry getWord(@PathVariable String word) throws WordNotFoundException {
