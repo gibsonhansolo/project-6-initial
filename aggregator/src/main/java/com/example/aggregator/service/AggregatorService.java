@@ -18,38 +18,53 @@ public class AggregatorService {
         this.aggregatorRestClient = aggregatorRestClient;
     }
 
-    public List <Entry> getAllPalindromes() {
-        final List<Entry> candidates = new ArrayList<>();
-            // Iterate from a to z
-        IntStream.range('a', '{')
-            .mapToObj(i -> Character.toString(i))
-            .forEach(c -> {
+    public boolean validPalindrome(String word) {
+        int len  = word.length();
+        if(word.charAt(0) != word.charAt(len-1)) {
+            return false;
+        };
 
-            // get words starting and ending with character
-            List<Entry> startsWith = aggregatorRestClient.getWordsStartingWith(c);
-            List<Entry> endsWith = aggregatorRestClient.getWordsEndingWith(c);
-
-            // keep entries that exist in both lists
-            List<Entry> startsAndEndsWith = new ArrayList<>(startsWith);
-            startsAndEndsWith.retainAll(endsWith);
-
-            
-            // store list with existing entries
-            candidates.addAll(startsAndEndsWith);
-
-        });
-
-        // test each entry for palindrome, sort and return
-        return candidates.stream()
-          .filter(entry -> {
-              String word = entry.getWord();
-              String reverse = new StringBuilder(word).reverse().toString();
-
-              return word.equals(reverse);
-          })
-            .sorted()
-            .collect(Collectors.toList());
+        for(int i = 0; i < len/2; i++) {
+            if(word.charAt(i) != word.charAt(len-i-1)) {
+                return false;
+            }
+        }
+        return true;
     }
+
+    public List <Entry> getAllPalindromes() {
+        final List<Entry> words = new ArrayList<>();
+        List<Entry> invalidWords = new ArrayList<>();
+        //iterate through all letters
+        for(char letter  = 'a';  letter <= 'z'; letter++){
+            String s = String.valueOf(letter);
+            List<Entry> entries = aggregatorRestClient.getWordsStartingWith(s);
+
+            //iterate through words
+            for(Entry entry : entries) {
+                System.out.println(entry);
+                String word = String.valueOf(entry);
+
+                if(words.contains(word)) {
+                    continue;
+                }
+                else if(invalidWords.contains(word)) {
+                    continue;
+                }
+                else if(!validPalindrome(String.valueOf(word))) {
+                    invalidWords.add(entry);
+                    continue;
+                }
+                else {
+                    words.add(entry);
+                }
+            }
+
+        }
+
+        return words;
+    }
+
     public Entry getDefinitionFor(String word) {
         return aggregatorRestClient.getDefinitionFor(word);
     }
